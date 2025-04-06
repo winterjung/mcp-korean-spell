@@ -16,6 +16,7 @@
     "build": "tsc && chmod +x dist/index.js",
     "dev": "ts-node src/index.ts",
     "watch": "tsc --watch",
+    "format": "biome format . --write",
     "check": "biome check ."
   },
   "keywords": [],
