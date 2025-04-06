@@ -1,4 +1,4 @@
-import { NaverSpellChecker } from "./naver_speller";
+import { NaverSpellChecker } from "./naver_speller.js";
 
 async function runTest() {
   const checker = new NaverSpellChecker();

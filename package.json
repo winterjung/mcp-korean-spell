@@ -1,13 +1,13 @@
 {
-  "name": "mcp-korean-spell",
+  "name": "@winterjung/mcp-korean-spell",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Korean spell checker MCP(Model Context Protocol) server",
+  "type": "module",
   "bin": {
     "mcp-korean-spell": "./dist/index.js"
   },
   "engines": {
-    "node": "v18.19.0",
+    "node": ">=18.0.0",
     "pnpm": "v10.7.1"
   },
   "scripts": {
@@ -19,9 +19,17 @@
     "format": "biome format . --write",
     "check": "biome check ."
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["korean", "spell checker"],
+  "author": "winterjung",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/winterjung/mcp-korean-spell.git"
+  },
+  "bugs": {
+    "url": "https://github.com/winterjung/mcp-korean-spell/issues"
+  },
+  "homepage": "https://github.com/winterjung/mcp-korean-spell#readme",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.8.0",
     "cheerio": "^1.0.0",
