@@ -1,11 +1,12 @@
 {
   "name": "@winterjung/mcp-korean-spell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Korean spell checker MCP(Model Context Protocol) server",
   "type": "module",
   "bin": {
     "mcp-korean-spell": "./dist/index.js"
   },
+  "files": ["dist", "README.md", "LICENSE"],
   "engines": {
     "node": ">=18.0.0",
     "pnpm": "v10.7.1"
