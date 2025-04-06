@@ -5,6 +5,7 @@ const SPELLER_PROVIDER_URL =
 const PASSPORT_KEY_REGEX = /SpellerProxy\?passportKey=([a-zA-Z0-9]+)/;
 const SPELLER_API_URL_BASE =
   "https://m.search.naver.com/p/csearch/ocontent/util/SpellerProxy?passportKey=";
+const MAX_CHUNK_LENGTH = 300;
 
 interface NaverSpellerResponse {
   message: {
@@ -63,6 +64,20 @@ export class NaverSpellChecker {
   }
 
   async correctText(text: string): Promise<string> {
+    const chunks = this.chunkText(text);
+    let corrected = "";
+    for (const chunk of chunks) {
+      const correctedChunk = await this.correctChunk(chunk);
+      if (corrected.endsWith(" ")) {
+        corrected += correctedChunk;
+      } else {
+        corrected += ` ${correctedChunk}`;
+      }
+    }
+    return corrected;
+  }
+
+  async correctChunk(text: string): Promise<string> {
     if (!this.spellerApiUrl) {
       await this.updateSpellerApiUrl();
       if (!this.spellerApiUrl) {
@@ -84,7 +99,6 @@ export class NaverSpellChecker {
     }
 
     const data: NaverSpellerResponse = JSON.parse(responseText);
-    console.log("네이버 맞춤법 검사기 응답:", JSON.stringify(data, null, 2));
 
     if (data.message.error) {
       if (data.message.error === "유효한 키가 아닙니다.") {
@@ -95,5 +109,43 @@ export class NaverSpellChecker {
     }
 
     return simpleHtmlUnescape(data.message.result.notag_html);
+  }
+
+  private chunkText(text: string): string[] {
+    if (text.length <= MAX_CHUNK_LENGTH) {
+      return [text];
+    }
+
+    const chunks: string[] = [];
+    let currentChunk = "";
+    const words = text.split(/(\s+)/);
+
+    for (const word of words) {
+      if (!word) continue;
+
+      if (word.length > MAX_CHUNK_LENGTH) {
+        // If a single "word" is too long, split it forcefully
+        if (currentChunk) {
+          chunks.push(currentChunk);
+          currentChunk = "";
+        }
+        for (let i = 0; i < word.length; i += MAX_CHUNK_LENGTH) {
+          chunks.push(word.substring(i, i + MAX_CHUNK_LENGTH));
+        }
+        continue;
+      }
+      if (currentChunk.length + word.length > MAX_CHUNK_LENGTH) {
+        chunks.push(currentChunk);
+        currentChunk = word.trimStart();
+        continue;
+      }
+      currentChunk += word;
+    }
+
+    if (currentChunk) {
+      chunks.push(currentChunk);
+    }
+
+    return chunks.filter((chunk) => chunk.length > 0);
   }
 }
