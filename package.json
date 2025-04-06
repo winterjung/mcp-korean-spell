@@ -15,7 +15,8 @@
     "start": "ts-node src/index.ts",
     "build": "tsc && chmod +x dist/index.js",
     "dev": "ts-node src/index.ts",
-    "watch": "tsc --watch"
+    "watch": "tsc --watch",
+    "check": "biome check ."
   },
   "keywords": [],
   "author": "",
@@ -24,6 +25,7 @@
     "@modelcontextprotocol/sdk": "^1.8.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@types/node": "^22.14.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
