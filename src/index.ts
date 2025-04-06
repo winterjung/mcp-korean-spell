@@ -1,6 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
+import { NaverSpellChecker } from "./naver_speller.js";
+
+const spellChecker = new NaverSpellChecker();
 
 const server = new McpServer({
   name: "Korean Spell Checker",
@@ -14,13 +17,23 @@ server.tool(
     text: z.string().describe("맞춤법 검사 할 한국어 텍스트"),
   },
   async ({ text }) => {
-    const corrected = `Corrected text: ${text}`;
-
+    const correctedText = await spellChecker.correctText(text);
+    if (!correctedText) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "맞춤법 검사 중 오류가 발생했습니다.",
+          },
+        ],
+        isError: true,
+      };
+    }
     return {
       content: [
         {
           type: "text",
-          text: corrected,
+          text: correctedText,
         },
       ],
     };
