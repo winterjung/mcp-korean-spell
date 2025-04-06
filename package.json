@@ -11,7 +11,7 @@
     "pnpm": "v10.7.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "ts-node src/test_naver_speller.ts",
     "start": "ts-node src/index.ts",
     "build": "tsc && chmod +x dist/index.js",
     "dev": "ts-node src/index.ts",

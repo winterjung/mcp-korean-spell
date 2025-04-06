@@ -76,14 +76,15 @@ export class NaverSpellChecker {
     const url = this.spellerApiUrl + encodedText;
 
     const response = await fetch(url);
-    const html = await response.text();
+    const responseText = await response.text();
     if (!response.ok) {
       throw new Error(
-        `HTTP error! status: ${response.status}, response: ${html}`,
+        `HTTP error! status: ${response.status}, response: ${responseText}`,
       );
     }
 
-    const data: NaverSpellerResponse = await response.json();
+    const data: NaverSpellerResponse = JSON.parse(responseText);
+    console.log("네이버 맞춤법 검사기 응답:", JSON.stringify(data, null, 2));
 
     if (data.message.error) {
       if (data.message.error === "유효한 키가 아닙니다.") {
