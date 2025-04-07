@@ -17,9 +17,20 @@ server.tool(
   {
     text: z.string().describe("맞춤법 검사 할 한국어 텍스트"),
   },
-  async ({ text }) => {
-    const correctedText = await spellChecker.correctText(text);
-    if (!correctedText) {
+  async ({ text }: { text: string }) => {
+    try {
+      const correctedText = await spellChecker.correctText(text);
+      
+      return {
+        content: [
+          {
+            type: "text",
+            text: correctedText,
+          },
+        ],
+      };
+    } catch (error) {
+      console.error("맞춤법 검사 중 오류 발생:", error);
       return {
         content: [
           {
@@ -30,14 +41,6 @@ server.tool(
         isError: true,
       };
     }
-    return {
-      content: [
-        {
-          type: "text",
-          text: correctedText,
-        },
-      ],
-    };
   },
 );
 

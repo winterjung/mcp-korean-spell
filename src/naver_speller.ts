@@ -18,6 +18,7 @@ interface NaverSpellerResponse {
     error?: string;
   };
 }
+
 function simpleHtmlUnescape(text: string): string {
   return text
     .replace(/&lt;/g, "<")
@@ -43,7 +44,7 @@ export class NaverSpellChecker {
 
     let passportKey: string | undefined;
     const $ = loadCheerio(html);
-    $("script").each((_, element) => {
+    $("script").each((_: any, element: any) => {
       const scriptContent = $(element).html();
       const match = scriptContent?.match(PASSPORT_KEY_REGEX);
       if (match?.[1]) {
