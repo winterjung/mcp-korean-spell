@@ -20,7 +20,17 @@ server.tool(
   async ({ text }: { text: string }) => {
     try {
       const correctedText = await spellChecker.correctText(text);
-      
+      if (!correctedText) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: "맞춤법 검사 중 오류가 발생했습니다.",
+            },
+          ],
+        };
+      }
+
       return {
         content: [
           {
