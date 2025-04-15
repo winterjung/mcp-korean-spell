@@ -28,6 +28,12 @@ To configure this spell checker in your MCP client, add the following to your [`
 }
 ```
 
+## Disclaimer
+
+- This tool is based on the [네이버(NAVER) 맞춤법 검사기](https://m.search.naver.com/search.naver?query=맞춤법+검사기).
+- This tool is not officially provided and is not affiliated with the company.
+- If company stops, changes or blocks providing the service, this tool may not function correctly.
+
 ## License
 
 This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
